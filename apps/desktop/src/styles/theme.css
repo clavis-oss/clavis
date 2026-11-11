@@ -1,0 +1,109 @@
+/*
+ * Clavis desktop theme. Semantic tokens from packages/design-tokens are
+ * mirrored as CSS variables; the System/Light/Dark choice is device-local.
+ */
+
+:root,
+:root[data-theme="light"] {
+  --surface-canvas: #f4f6f8;
+  --surface-panel: #ffffff;
+  --surface-sidebar: #f9fafb;
+  --surface-hover: #edf2f6;
+  --border-subtle: #d8e0e8;
+  --text-primary: #152131;
+  --text-secondary: #526377;
+  --text-muted: #62748a;
+  --accent-primary: #08785f;
+  --accent-on-primary: #ffffff;
+  --status-success: #08785f;
+  --status-warning: #805400;
+  --status-danger: #b32636;
+  --focus-ring: #245fc7;
+}
+
+:root[data-theme="dark"] {
+  --surface-canvas: #10151d;
+  --surface-panel: #161d27;
+  --surface-sidebar: #121923;
+  --surface-hover: #202b39;
+  --border-subtle: #2b3747;
+  --text-primary: #eff4fa;
+  --text-secondary: #a6b6c9;
+  --text-muted: #8c9eb3;
+  --accent-primary: #62e2bf;
+  --accent-on-primary: #0d2921;
+  --status-success: #62e2bf;
+  --status-warning: #f4c66b;
+  --status-danger: #ff969a;
+  --focus-ring: #8ebbff;
+}
+
+/* Spacing scale 4/8/12/16/24/32 */
+:root {
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --radius-row: 12px;
+  --radius-dialog: 16px;
+  --radius-control: 8px;
+  --control-min: 36px;
+  --transition: 150ms ease;
+  --toolbar-h: 64px;
+  --sidebar-w: 184px;
+  --detail-max: 440px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition: 0ms;
+  }
+  * {
+    animation: none !important;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--text-primary);
+  background: var(--surface-canvas);
+}
+
+/* Visible focus everywhere: 2 px outline. */
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+  border-radius: var(--radius-control);
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+/* OTP digits: monospace fallback with tabular figures; never clipped. */
+.otp-code {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 26px;
+  line-height: 32px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}

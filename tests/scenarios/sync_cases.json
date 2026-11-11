@@ -1,0 +1,92 @@
+[
+  {
+    "name": "two_offline_additions",
+    "devices": ["phone", "laptop"],
+    "operations": [
+      "phone goes offline, adds account 'Work GitHub'",
+      "laptop goes offline, adds account 'Personal GitHub'",
+      "both devices come back online and sync in either order"
+    ],
+    "expect": "both accounts present on both devices; no conflict; identical merged snapshot bytes"
+  },
+  {
+    "name": "competing_labels",
+    "devices": ["phone", "laptop", "tablet"],
+    "operations": [
+      "all three devices sync a baseline account with label 'GitHub'",
+      "phone edits label to 'GitHub (work)' while offline",
+      "laptop edits label to 'GitHub personal' while offline",
+      "all devices sync"
+    ],
+    "expect": "issuer label register holds two concurrent candidates on every device; conflict surfaced; no candidate silently dropped; resolved value identical everywhere after explicit resolution"
+  },
+  {
+    "name": "identical_values_collapse",
+    "devices": ["phone", "laptop"],
+    "operations": [
+      "both devices offline edit the same account's issuer to the identical string 'GitLab'",
+      "both devices sync"
+    ],
+    "expect": "identical concurrent values collapse to a single candidate; no conflict card shown"
+  },
+  {
+    "name": "otp_config_atomic",
+    "devices": ["phone", "laptop"],
+    "operations": [
+      "baseline account with secret S1, SHA1, 6 digits, 30s period",
+      "phone offline changes period to 60",
+      "laptop offline imports a new otpauth URI replacing the whole config with secret S2, SHA256, 8 digits, 30s",
+      "both devices sync"
+    ],
+    "expect": "otp_config register holds two concurrent complete configs; no merge may combine S1 with laptop parameters or S2 with phone parameters; user resolves to one complete config"
+  },
+  {
+    "name": "delete_vs_edit",
+    "devices": ["phone", "laptop"],
+    "operations": [
+      "baseline account on both devices",
+      "phone offline deletes the account (lifecycle -> deleted)",
+      "laptop offline edits the issuer label",
+      "both devices sync"
+    ],
+    "expect": "lifecycle and issuer are independent registers: edit survives and deletion is recorded; conflict surfaced for user decision rather than either change discarded"
+  },
+  {
+    "name": "concurrent_resolutions",
+    "devices": ["phone", "laptop"],
+    "operations": [
+      "create a two-candidate label conflict and sync it to both devices",
+      "phone resolves by keeping candidate A while offline",
+      "laptop resolves by keeping candidate B while offline",
+      "both devices sync"
+    ],
+    "expect": "both resolutions observed as concurrent writes; result is a new conflict state with the two resolution choices, not a crash and not a silent arbitrary pick; deterministic after final resolution"
+  },
+  {
+    "name": "criss_cross_ancestry",
+    "devices": ["phone", "laptop"],
+    "operations": [
+      "devices alternate syncs so each has revisions with parents the other has not seen (A1<-B1<-A2<-B2 ...)",
+      "both devices sync after several criss-cross rounds"
+    ],
+    "expect": "graph validation passes (no cycles, same-vault parents only); all revisions reachable; merged state converges identically on both devices regardless of sync order"
+  },
+  {
+    "name": "missing_parent_incomplete",
+    "devices": ["phone", "laptop"],
+    "operations": [
+      "phone creates revision R2 with parent R1 but R1 fails to upload",
+      "laptop lists the remote and sees R2 without R1"
+    ],
+    "expect": "laptop reports incomplete sync (exit code 4 via CLI); no merge performed; R2 is never treated as an arbitrary head"
+  },
+  {
+    "name": "unrelated_roots_integrity",
+    "devices": ["phone", "laptop", "tablet"],
+    "operations": [
+      "tablet starts a fresh vault with a different vault_id and uploads to the same provider folder prefix",
+      "phone and laptop sync their own vault"
+    ],
+    "expect": "cross-vault parents rejected by graph validation; the two vaults never merge; each vault's state remains intact"
+  }
+]

@@ -1,0 +1,21 @@
+[package]
+name = "clavis-sync"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Revision discovery, graph validation, merge, retry and provider-independent transport contract"
+
+[dependencies]
+clavis-core = { workspace = true }
+clavis-store = { workspace = true }
+async-trait = { workspace = true }
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+rand = { workspace = true }
+sha2 = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+secrecy = { workspace = true }

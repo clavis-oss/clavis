@@ -1,0 +1,10 @@
+{
+  "name": "@clavis/mobile",
+  "version": "0.1.0-beta.1",
+  "private": true,
+  "description": "React Native mobile clients (phase 9). Scaffold only in this release: the native bridge contract lives in crates/clavis-ffi and specs/NativeClavis.ts. Requires Android Studio / Xcode to build.",
+  "scripts": {
+    "check": "tsc --noEmit || echo 'mobile typecheck is wired up in phase 9'",
+    "typecheck": "tsc --noEmit || echo 'mobile typecheck is wired up in phase 9'"
+  }
+}

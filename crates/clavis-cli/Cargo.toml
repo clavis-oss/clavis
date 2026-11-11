@@ -1,0 +1,30 @@
+[package]
+name = "clavis-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Clavis CLI and Ratatui terminal client"
+
+[[bin]]
+name = "clavis-cli"
+path = "src/main.rs"
+
+[dependencies]
+clavis-core = { workspace = true }
+clavis-store = { workspace = true }
+clavis-sync = { workspace = true }
+clavis-providers = { workspace = true }
+clap = { workspace = true }
+rpassword = { workspace = true }
+ratatui = { workspace = true }
+crossterm = { workspace = true }
+tokio = { workspace = true }
+serde_json = { workspace = true }
+uuid = { workspace = true }
+secrecy = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+clavis-core = { workspace = true }
+clavis-store = { workspace = true }
+secrecy = { workspace = true }

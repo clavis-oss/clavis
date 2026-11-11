@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  rust:
+    name: Rust (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: dtolnay/rust-toolchain@1.99.1
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@82a92a6e8fbeee089604da2575dc56dabe9dfa7c # v2.7.5
+      - name: Install Linux system deps (WebKitGTK 4.1 baseline)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev patchelf libudev-dev
+      - name: Format
+        run: cargo fmt --all -- --check
+      - name: Clippy
+        run: cargo clippy --workspace --all-targets -- -D warnings
+      - name: Tests
+        run: cargo test --workspace
+      - name: Regenerate contracts (drift check)
+        if: runner.os == 'Linux'
+        run: node scripts/check-contract-drift.mjs
+
+  node:
+    name: Node checks
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
+        with:
+          version: 12.10.1
+      - uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c69c6477b0c2f # v4.2.0
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Typecheck
+        run: pnpm -r --if-present check
+      - name: UI tests
+        run: pnpm --filter @clavis/desktop test
+
+  # The mobile core spike (phase 1 gate) requires Android/iOS SDKs; it runs
+  # on self-hosted or manual runners and is not part of this workflow's
+  # required checks. See docs/adr/0003-native-bridge.md.

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Clavis",
+  "version": "0.1.0-beta.1",
+  "identifier": "app.clavis.desktop",
+  "build": {
+    "beforeDevCommand": "pnpm --filter @clavis/desktop dev",
+    "devUrl": "http://localhost:5173",
+    "beforeBuildCommand": "pnpm --filter @clavis/desktop build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Clavis",
+        "width": 960,
+        "height": 720,
+        "minWidth": 560,
+        "minHeight": 580,
+        "resizable": true,
+        "decorations": true,
+        "center": true
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src ipc: http://ipc.localhost"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["appimage", "deb", "dmg"],
+    "icon": []
+  }
+}

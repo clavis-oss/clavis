@@ -1,0 +1,17 @@
+{
+  "entry_id": "fadcf819-3cc0-4d01-8832-ecc983087f7f",
+  "expected": {
+    "account_label": "fixture@example.com",
+    "issuer": "Fixture",
+    "otp": {
+      "algorithm": "SHA1",
+      "digits": 6,
+      "period_seconds": 30
+    }
+  },
+  "format": 1,
+  "parent_id": "47cc5a42-ff20-4db1-8bbc-635fa6189de4",
+  "passphrase": "fixture-passphrase-123",
+  "revision_id": "28519c6e-53b4-48cb-9299-b02352833d1a",
+  "vault_id": "0999a751-4428-4b98-8a0f-ac02a8e150bc"
+}

@@ -1,0 +1,94 @@
+# Release workflow skeleton (phase 8 gate). Not yet exercised end to
+# end: provider production approvals and signing infrastructure are
+# pending (docs/release/desktop-v1-checklist.md).
+#
+# Signing credentials live ONLY in protected infrastructure (the
+# maintainer's environment / approved runners). They are never stored
+# in this repository, in fork-visible variables, or in plain secrets.
+# All jobs below require manual environment approval before they run.
+
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  linux:
+    name: Linux build (AppImage + deb)
+    runs-on: ubuntu-22.04
+    environment: release   # manual approval gate
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: "1.99.1"
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Build and bundle (Tauri action)
+        uses: tauri-apps/tauri-action@v0
+        env:
+          # Signing credentials would be injected here from the
+          # protected environment only. Placeholder; wired at release.
+          TAURI_SIGNING_PRIVATE_KEY: ""
+        with:
+          args: --target x86_64-unknown-linux-gnu
+          # Produces AppImage and deb per tauri.conf.json bundle targets.
+      - name: Checksums
+        run: |
+          mkdir -p dist-out
+          find target -name "*.AppImage" -o -name "*.deb" | xargs -I{} cp {} dist-out/
+          (cd dist-out && sha256sum * > SHA256SUMS)
+      - name: SBOM
+        run: |
+          # Syft or similar, run in protected infra; skeleton only.
+          echo "SBOM generation placeholder (syft dir:. -o spdx-json > dist-out/sbom.spdx.json)"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-release
+          path: dist-out/
+
+  macos:
+    name: macOS build (dmg)
+    runs-on: macos-latest
+    environment: release   # manual approval gate
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: "1.99.1"
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Build and bundle (Tauri action)
+        uses: tauri-apps/tauri-action@v0
+        env:
+          # Apple signing/notarization credentials come from the
+          # protected environment only. Placeholder; wired at release.
+          APPLE_CERTIFICATE: ""
+        with:
+          args: --target aarch64-apple-darwin
+          # Produces the dmg per tauri.conf.json bundle targets.
+      - name: Checksums
+        run: |
+          mkdir -p dist-out
+          find target -name "*.dmg" | xargs -I{} cp {} dist-out/
+          (cd dist-out && shasum -a 256 * > SHA256SUMS)
+      - name: SBOM
+        run: echo "SBOM generation placeholder"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos-release
+          path: dist-out/

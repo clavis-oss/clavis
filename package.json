@@ -1,0 +1,17 @@
+{
+  "name": "clavis",
+  "private": true,
+  "version": "0.1.0-beta.1",
+  "packageManager": "pnpm@12.10.1",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "check": "pnpm -r --if-present check && pnpm -r --if-present typecheck && node scripts/check-contract-drift.mjs",
+    "test": "pnpm -r --if-present test",
+    "build": "pnpm -r --if-present build"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3"
+  }
+}

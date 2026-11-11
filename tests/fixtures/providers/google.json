@@ -1,0 +1,15 @@
+{
+  "comment": "Sanitized Google Drive API responses for adapter contract tests. Synthetic bytes only — never real account data.",
+  "list_files_page": {
+    "nextPageToken": "page-2-token",
+    "files": [
+      { "id": "file-1", "name": "clavis-00000000-0000-0000-0000-000000000001-11111111-1111-1111-1111-111111111111.clv", "size": "1024", "md5Checksum": "d41d8cd98f00b204e9800998ecf8427e" }
+    ]
+  },
+  "list_files_last_page": {
+    "files": []
+  },
+  "upload_response": { "id": "file-new", "name": "clavis-…clv", "mimeType": "application/octet-stream" },
+  "error_invalid_credentials": { "error": { "code": 401, "message": "Invalid Credentials", "errors": [{ "reason": "authError" }] } },
+  "error_rate_limited": { "error": { "code": 429, "message": "Rate limit exceeded", "errors": [{ "reason": "userRateLimitExceeded" }] } }
+}

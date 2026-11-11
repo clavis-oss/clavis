@@ -1,0 +1,36 @@
+[package]
+name = "clavis-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Clavis domain types, OTP, import parsing, cryptography and unlocked sessions"
+
+[dependencies]
+argon2 = { workspace = true }
+hkdf = { workspace = true }
+sha2 = { workspace = true }
+hmac = "0.12"
+sha1 = "0.10"
+chacha20poly1305 = { workspace = true }
+zeroize = { workspace = true }
+secrecy = { workspace = true }
+subtle = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+uuid = { workspace = true }
+rand = { workspace = true }
+base64 = { workspace = true }
+thiserror = { workspace = true }
+ts-rs = { workspace = true, optional = true }
+image = { version = "0.25", default-features = false, features = ["png", "jpeg"] }
+rqrr = "0.9"
+
+[features]
+default = ["export-contracts"]
+export-contracts = ["dep:ts-rs"]
+
+[dev-dependencies]
+image = "0.25"
+qrcode = { version = "0.14.1", features = ["image"] }
+serde_json.workspace = true
+tempfile = { workspace = true }

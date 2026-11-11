@@ -1,0 +1,12 @@
+{
+  "comment": "Sanitized Microsoft Graph responses for OneDrive adapter contract tests. Synthetic bytes only.",
+  "approot_children_page1": {
+    "value": [
+      { "id": "item-1", "name": "11111111-1111-1111-1111-111111111111.clv", "size": 1024, "file": { "hashes": { "quickXorHash": "base64placeholder" } } }
+    ],
+    "@odata.nextLink": "https://graph.microsoft.com/v1.0/me/drive/special/approot:/children?$skiptoken=1"
+  },
+  "approot_children_page2": { "value": [] },
+  "upload_item": { "id": "item-new", "name": "x.clv", "size": 1024 },
+  "error_unauthorized": { "error": { "code": "InvalidAuthenticationToken", "message": "Access token is empty." } }
+}

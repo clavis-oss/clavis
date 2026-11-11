@@ -1,0 +1,30 @@
+[package]
+name = "clavis-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+
+[dependencies.clavis-core]
+path = "../crates/clavis-core"
+
+# Prevent this crate and the workspace from interfering with normal
+# builds; cargo-fuzz manages its own profile flags.
+[[bin]]
+name = "vault_header"
+path = "fuzz_targets/vault_header.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "otpauth"
+path = "fuzz_targets/otpauth.rs"
+test = false
+doc = false
+bench = false

@@ -1,0 +1,6 @@
+packages:
+  - apps/desktop
+  - apps/mobile
+  - packages/contracts
+  - packages/design-tokens
+enablePrePostScripts: true

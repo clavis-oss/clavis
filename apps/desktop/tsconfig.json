@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "types": ["vite/client"],
+    "paths": {
+      "@clavis/contracts": ["../../packages/contracts/src/index.ts"],
+      "@clavis/design-tokens": ["../../packages/design-tokens/src/tokens.ts"]
+    }
+  },
+  "include": ["src", "../../packages/contracts/src", "../../packages/design-tokens/src"]
+}

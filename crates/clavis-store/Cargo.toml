@@ -1,0 +1,22 @@
+[package]
+name = "clavis-store"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Local SQLite transactions containing encrypted revision blobs, pending writes and non-secret configuration"
+
+[dependencies]
+clavis-core = { workspace = true }
+rusqlite = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+zeroize = { workspace = true }
+thiserror = { workspace = true }
+rand = { workspace = true }
+hkdf = { workspace = true }
+sha2 = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+secrecy = { workspace = true }
+clavis-sync = { workspace = true }

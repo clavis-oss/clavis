@@ -1,0 +1,32 @@
+[package]
+name = "clavis-providers"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Google, Microsoft and Dropbox adapters, OAuth lifecycle and future storage providers"
+
+[dependencies]
+clavis-core = { workspace = true }
+clavis-sync = { workspace = true }
+async-trait = { workspace = true }
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+rand = { workspace = true }
+sha2 = { workspace = true }
+base64 = { workspace = true }
+reqwest = { workspace = true, optional = true }
+quick-xml = { workspace = true }
+subtle = { workspace = true }
+secrecy = { workspace = true }
+uuid = { workspace = true }
+
+[features]
+default = ["http"]
+http = ["dep:reqwest"]
+
+[dev-dependencies]
+tempfile = { workspace = true }
+secrecy = { workspace = true }
+clavis-store = { workspace = true }

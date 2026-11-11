@@ -1,0 +1,17 @@
+[package]
+name = "clavis-ffi"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "UniFFI bindings to Kotlin/Swift: opaque sessions and async worker boundary"
+
+[dependencies]
+clavis-core = { workspace = true }
+uniffi = { workspace = true, features = ["cli"] }
+
+[build-dependencies]
+uniffi = { workspace = true, features = ["build"] }
+
+[lib]
+name = "clavis_ffi"
+crate-type = ["lib", "cdylib", "staticlib"]
